@@ -5,9 +5,18 @@ const methodOverride = require('method-override');
 const ejs = require('ejs');
 const photoControllers = require('./controllers/photoControllers');
 const pageControllers = require('./controllers/pageControllers');
-
+require('dotenv').config();
 const app = express();
-mongoose.connect('mongodb://localhost/pcat-test-db');
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => {
+    console.log('MongoDB bağlantısı başarılı!');
+  })
+  .catch(err => {
+    console.error('MongoDB bağlantısı hatalı:', err);
+  });
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
